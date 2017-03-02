@@ -1,0 +1,15 @@
+{
+  "name": "aikido",
+  "version": "1.0.0",
+  "description": "Site de Administracao Alunos, Professores e Exames de Aikido",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jose Ricardo Xavier",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.8.8"
+  }
+}
