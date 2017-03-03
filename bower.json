@@ -1,0 +1,20 @@
+{
+  "name": "aikidoMEAN",
+  "version": "1.0.0",
+  "homepage": "https://github.com/jrxavier/aikidoMEAN",
+  "authors": [
+    "Jose Ricardo Xavier <jrxavier@gmail.com>"
+  ],
+  "description": "Gestão de alunos, professores e exames de aikido",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.3"
+  }
+}
