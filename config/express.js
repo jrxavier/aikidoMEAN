@@ -2,14 +2,13 @@ var express = require('express');
 
 module.exports = function() {
     var app = express();
-    var home = require('../app/routes/home'); // Configuracao de rota
+    //var home = require('../app/routes/home'); // Configuracao de rota
     var load = require('express-load');
     var bodyParser = require('body-parser');
 
 
     //Variaveis de Ambiente - definicao através do método app.set()
     app.set('port', 3000);
-
     app.set('view engine', 'ejs');
     app.set('views', './app/views'); //No Express, template engines são configurados em variáveis de Ambiente
 
