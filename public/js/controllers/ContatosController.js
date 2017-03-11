@@ -1,4 +1,4 @@
-angular.module('contatooh').controller('ContatosController', function($scope, $resource) {
+angular.module('contatooh').controller('ContatosController', function(Contato, $scope) {
 
     $scope.filtro = '';
 
@@ -17,10 +17,10 @@ angular.module('contatooh').controller('ContatosController', function($scope, $r
      * seguindo o padrão REST para o recurso /contatos. O nome da variável está em maiusculo
      * algo internacional para diferencia-lo de uma possível variável que represente o model para contato
      */
-    var Contatos = $resource('/contatos/:id');
+    //var Contato = $resource('/contatos/:id');
 
     function buscaContatos() {
-        Contatos.query(
+        Contato.query(
             function(contatos) {
                 $scope.contatos = contatos;
             },
@@ -35,7 +35,7 @@ angular.module('contatooh').controller('ContatosController', function($scope, $r
 
     $scope.remove = function(contato) {
 
-        Contatos.delete({ id: contato._id },
+        Contato.delete({ id: contato._id },
             buscaContatos,
             function(error) {
                 $scope.mensagem = {
