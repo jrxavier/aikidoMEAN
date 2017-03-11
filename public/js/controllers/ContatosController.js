@@ -1,27 +1,62 @@
-angular.module('contatooh').controller('ContatosController', function($scope) {
+angular.module('contatooh').controller('ContatosController', function($scope, $resource) {
 
-    $scope.total = 0;
     $scope.filtro = '';
 
-    $scope.contatos = [{
-            _id: 1,
-            "nome": 'Flavio Henrique',
-            "email": 'souza@gmail.com'
-        },
-        {
-            _id: 2,
-            "nome": 'Jose Ricardo',
-            "email": 'jrxavier@gmail.com'
+    $scope.contatos = [];
 
-        }
-    ];
-
-    $scope.exibir = true;
-    $scope.salario = 100.12;
-    $scope.admissao = new Date();
-
-    $scope.incrementa = function() {
-        $scope.total++;
+    $scope.mensagem = {
+        texto: ''
     };
+
+    $scope.init = function() {
+        buscaContatos();
+    };
+
+    /**
+     * O servico $resource nos devolve um objeto que permite realizar uma série de operações
+     * seguindo o padrão REST para o recurso /contatos. O nome da variável está em maiusculo
+     * algo internacional para diferencia-lo de uma possível variável que represente o model para contato
+     */
+    var Contatos = $resource('/contatos/:id');
+
+    function buscaContatos() {
+        Contatos.query(
+            function(contatos) {
+                $scope.contatos = contatos;
+            },
+            function(erro) {
+                $scope.mensagem = {
+                    texto: 'Não foi possível obter a lista de Contatos'
+                };
+                console.log(erro);
+            }
+        );
+    }
+
+    $scope.remove = function(contato) {
+
+        Contatos.delete({ id: contato._id },
+            buscaContatos,
+            function(error) {
+                $scope.mensagem = {
+                    texto: 'Não foi possível remover contato'
+                };
+                console.log(erro);
+            }
+        );
+    };
+
+    //Método de inicilização do controller. Chama todos os métodos preparatórios dentro dele.
+    $scope.init();
+
+    //Exemplo do $http
+    // $http.get('/contatos')
+    //     .success(function(data) {
+    //         $scope.contatos = data;
+    //     })
+    //     .error(function(statusText) {
+    //         console.log("Não foi possível obter a lista de contatos");
+    //         console.log(statusText);
+    //     })
 
 });
