@@ -13,7 +13,8 @@ module.exports = function() {
     var passport = require('passport');
 
     //Variaveis de Ambiente - definicao através do método app.set()
-    app.set('port', 3000);
+    var port = process.env.PORT || 3000;
+    app.set('port', port);
     app.set('view engine', 'ejs');
     app.set('views', './app/views'); //No Express, template engines são configurados em variáveis de Ambiente
 
