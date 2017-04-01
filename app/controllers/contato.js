@@ -5,7 +5,7 @@ module.exports = function(app) {
     var Contato = app.models.contato;
 
     controller.listaContatos = function(req, res) {
-        Contato.find().exec().then(function(contatos) {
+        Contato.find().populate('emergencia').exec().then(function(contatos) {
             res.json(contatos);
         }, function(erro) {
             console.error(erro);
@@ -40,7 +40,47 @@ module.exports = function(app) {
         );
     };
 
-    controller.salvaContato = function(req, res) {}
+    controller.salvaContato = function(req, res) {
+        var _id = req.body._id;
+
+        //testando por undefined
+        req.body.emergencia = req.body.emergencia || null;
+
+        if (_id) {
+            Contato.findByIdAndUpdate(_id, req.body).exec()
+                .then(
+                    function(contato) {
+                        res.json(contato);
+                    },
+                    function(erro) {
+                        console.log(erro);
+                        res.status(500).json(erro);
+                    });
+        } else {
+
+            //Abordagem 2 - Não devolve uma promisse (problema)
+            // var contato = new Contato(req.body);
+            // contato.save(
+            //     function(erro, contato) {
+            //         if (erro) {
+            //             console.log(erro);
+            //             res.status(500).json(erro);
+            //         } else {
+            //             res.json(contato);
+            //         }
+            //     })
+
+            Contato.create(req.body)
+                .then(
+                    function() {
+                        res.status(201).json(contato);
+                    },
+                    function(erro) {
+                        console.log(erro);
+                        res.status(500).json(erro);
+                    });
+        }
+    };
 
     return controller;
 }

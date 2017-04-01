@@ -7,6 +7,11 @@ module.exports = function() {
     var bodyParser = require('body-parser');
 
 
+    //Parte de segurança da aplicação
+    var cookieParser = require('cookie-parser');
+    var session = require('express-session');
+    var passport = require('passport');
+
     //Variaveis de Ambiente - definicao através do método app.set()
     app.set('port', 3000);
     app.set('view engine', 'ejs');
@@ -18,6 +23,15 @@ module.exports = function() {
     app.use(bodyParser.json());
     app.use(require('method-override')());
 
+    //Ordem de definicao dos middleware de seguranca é necessária
+    app.use(cookieParser());
+    app.use(session({
+        secret: 'aikido alberto',
+        resave: true,
+        saveUninitialized: true
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     load('models', { cwd: 'app' })
         .then('controllers')

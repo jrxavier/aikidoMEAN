@@ -2,6 +2,11 @@ angular.module('contatooh').controller('ContatoController', function($scope, $ro
 
     //var Contato = $resource('/contatos/:id');
 
+    Contato.query(
+        function(contatos) {
+            $scope.contatos = contatos;
+        });
+
     if ($routeParams.contatoId) {
         Contato.get({ id: $routeParams.contatoId },
             function(contato) {
@@ -22,7 +27,7 @@ angular.module('contatooh').controller('ContatoController', function($scope, $ro
         $scope.contato.$save()
             .then(function() {
                 $scope.mensagem = {
-                    texto: 'Salvo com sucesso'
+                    texto: 'O registro de ' + $scope.contato.nome + ' foi salvo com sucesso'
                 };
                 //Objeto contato é apagado da tela após salvar
                 // $scope.contato = new Contato();
