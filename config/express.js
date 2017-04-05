@@ -1,4 +1,5 @@
 var express = require('express');
+var helmet = require('helmet');
 
 module.exports = function() {
     var app = express();
@@ -33,11 +34,23 @@ module.exports = function() {
     }));
     app.use(passport.initialize());
     app.use(passport.session());
+    app.use(helmet());
+
+    //Configuracoes de seguranca para a aplicacao
+    app.use(helmet.hidePoweredBy({ setTo: 'Ruby on Rails 3' }));
+    app.use(helmet.frameguard());
+    app.use(helmet.xssFilter());
+    app.use(helmet.noSniff());
+    app.disable('x-powered-by');
 
     load('models', { cwd: 'app' })
         .then('controllers')
         .then('routes')
         .into(app);
+
+    app.get('*', function(req, res) {
+        res.status(404).render('404');
+    });
 
     return app;
 
